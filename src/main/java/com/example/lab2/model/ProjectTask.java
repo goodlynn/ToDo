@@ -24,13 +24,15 @@ public class ProjectTask implements TaskComponent {
 
     @Override
     public double getProgress() {
-        if (children.isEmpty()) {
+        int totalTime = getTotalTime();
+
+        if (children.isEmpty() || totalTime == 0) {
             return 0;
         }
+
         return children.stream()
-                .mapToDouble(TaskComponent::getProgress)
-                .average()
-                .orElse(0);
+                .mapToDouble(child -> child.getProgress() * child.getTotalTime())
+                .sum() / totalTime;
     }
 
     @Override
@@ -53,9 +55,11 @@ public class ProjectTask implements TaskComponent {
         if (children.isEmpty() || children.stream().allMatch(child -> child.getStatus() == TaskStatus.NEW)) {
             return TaskStatus.NEW;
         }
+
         if (children.stream().allMatch(child -> child.getStatus() == TaskStatus.DONE)) {
             return TaskStatus.DONE;
         }
+
         return TaskStatus.IN_PROGRESS;
     }
 
@@ -69,12 +73,15 @@ public class ProjectTask implements TaskComponent {
         if (component == null) {
             throw new TaskValidationException("Нельзя добавить пустой элемент.");
         }
+
         if (component == this) {
             throw new InvalidTaskOperationException("Проект нельзя добавить внутрь самого себя.");
         }
+
         if (children.contains(component)) {
             throw new InvalidTaskOperationException("Этот элемент уже есть в проекте.");
         }
+
         children.add(component);
     }
 
