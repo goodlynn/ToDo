@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane styleClass="app-shell" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.lab2.ui.TodoController">
+    <top>
+        <VBox spacing="6" styleClass="top-panel">
+            <Label text="%app.title" styleClass="app-title"/>
+            <Label text="%app.subtitle" styleClass="app-subtitle"/>
+        </VBox>
+    </top>
+    <center>
+        <HBox spacing="18" styleClass="content">
+            <VBox spacing="12" HBox.hgrow="ALWAYS" styleClass="left-pane">
+                <Label text="%tree.title" styleClass="section-title"/>
+                <TreeView fx:id="taskTree" VBox.vgrow="ALWAYS"/>
+                <Label fx:id="summaryLabel" styleClass="summary-label"/>
+            </VBox>
+            <VBox spacing="14" styleClass="right-pane">
+                <VBox spacing="8" styleClass="details-panel">
+                    <Label text="%details.title" styleClass="section-title"/>
+                    <Label fx:id="selectedTitleLabel" styleClass="task-title"/>
+                    <GridPane hgap="12" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="42"/>
+                            <ColumnConstraints percentWidth="58"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                        </rowConstraints>
+                        <Label text="%details.type" styleClass="muted-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <Label fx:id="selectedTypeLabel" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                        <Label text="%details.deadline" styleClass="muted-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <Label fx:id="selectedDeadlineLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                        <Label text="%details.status" styleClass="muted-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <Label fx:id="selectedStatusLabel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                        <Label text="%details.time" styleClass="muted-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <Label fx:id="selectedTimeLabel" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                    </GridPane>
+                    <ProgressBar fx:id="progressBar" maxWidth="Infinity"/>
+                    <Label fx:id="selectedProgressLabel" styleClass="progress-label"/>
+                </VBox>
+
+                <VBox spacing="10" styleClass="editor-panel">
+                    <Label text="%editor.title" styleClass="section-title"/>
+                    <TextField fx:id="titleField" promptText="%editor.name"/>
+                    <HBox spacing="8">
+                        <DatePicker fx:id="deadlinePicker" HBox.hgrow="ALWAYS"/>
+                        <Spinner fx:id="hoursSpinner" editable="true" initialValue="1" max="80" min="1" prefWidth="92"/>
+                    </HBox>
+                    <ComboBox fx:id="statusBox" maxWidth="Infinity"/>
+                    <HBox spacing="8">
+                        <Button text="%button.addTask" onAction="#addSimpleTask" styleClass="primary-button"/>
+                        <Button text="%button.addProject" onAction="#addProject"/>
+                    </HBox>
+                    <HBox spacing="8">
+                        <Button text="%button.done" onAction="#markDone"/>
+                        <Button text="%button.remove" onAction="#removeSelected" styleClass="danger-button"/>
+                    </HBox>
+                    <Label fx:id="messageLabel" wrapText="true" styleClass="message-label"/>
+                </VBox>
+            </VBox>
+        </HBox>
+    </center>
+    <padding>
+        <Insets top="16" right="18" bottom="18" left="18"/>
+    </padding>
+</BorderPane>
